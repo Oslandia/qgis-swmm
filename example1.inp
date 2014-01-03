@@ -1,0 +1,200 @@
+[TITLE]
+ SW 1 0 20
+
+[OPTIONS]
+FLOW_UNITS          	CFS
+INFILTRATION        	HORTON
+FLOW_ROUTING        	DYNWAVE
+START_DATE          	01/01/1988
+START_TIME          	00:00:00
+REPORT_START_DATE   	01/01/1988
+REPORT_START_TIME   	00:00:00
+END_DATE            	01/01/1988
+END_TIME            	08:00:00
+SWEEP_START         	01/01
+SWEEP_END           	12/31
+DRY_DAYS            	0
+REPORT_STEP         	00:00:30
+WET_STEP            	00:15:00
+DRY_STEP            	01:00:00
+ROUTING_STEP        	0:00:30 
+ALLOW_PONDING       	NO
+INERTIAL_DAMPING    	NONE
+VARIABLE_STEP       	0.75
+LENGTHENING_STEP    	0
+MIN_SURFAREA        	12.566
+NORMAL_FLOW_LIMITED 	SLOPE
+SKIP_STEADY_STATE   	NO
+FORCE_MAIN_EQUATION 	H-W
+LINK_OFFSETS        	DEPTH
+MIN_SLOPE           	0
+
+[EVAPORATION]
+;Type      	Parameters
+;----------	----------
+CONSTANT    	0.0
+DRY_ONLY     NO
+
+[JUNCTIONS]
+;              	Invert    	Max.      	Init.     	Surcharge 	Ponded    
+;Name          	Elev.     	Depth     	Depth     	Depth     	Area      
+;--------------	----------	----------	----------	----------	----------
+10309           	101.60    	9.40      	.00       	0         	0         
+15009           	111.50    	13.50     	.00       	0         	0         
+16009           	102.00    	18.00     	.00       	0         	0         
+16109           	102.80    	22.20     	.00       	0         	0         
+;JUNCTION DATA
+80408           	124.60    	13.40     	.00       	0         	0         
+80608           	118.30    	16.70     	.00       	0         	0         
+81009           	128.20    	8.80      	.00       	0         	0         
+81309           	117.50    	12.50     	.00       	0         	0         
+
+[OUTFALLS]
+;              	Invert    	Outfall   	Stage/Table     	Tide
+;Name          	Elev.     	Type      	Time Series     	Gate
+;--------------	----------	----------	----------------	----
+10208           	89.9      	FREE      	                	NO
+
+[STORAGE]
+;              	Invert  	Max.    	Init.   	Storage   	Curve   	        	        	Ponded  	Evap.   
+;Name          	Elev.   	Depth   	Depth   	Curve     	Params  	        	        	Area    	Frac.   	Infiltration Parameters
+;--------------	--------	--------	--------	----------	--------	--------	--------	--------	--------	-----------------------
+82309           	112.30  	42.70   	.00     	FUNCTIONAL	100     	0       	0       	0       	0       
+OffLine         	112.30  	42.70   	.00     	FUNCTIONAL	100     	0       	0       	0       	0       
+
+[CONDUITS]
+;              	Inlet           	Outlet          	          	Manning   	Inlet     	Outlet    	Init.     	Max.      
+;Name          	Node            	Node            	Length    	N         	Offset    	Offset    	Flow      	Flow      
+;--------------	----------------	----------------	----------	----------	----------	----------	----------	----------
+;CONDUIT DATA
+8040            	80408           	80608           	1800.0    	0.015     	0.0       	0.0       	0.0       	0         
+8060            	80608           	82309           	2075.0    	0.015     	0.0       	2.2       	0.0       	0         
+8100            	81009           	81309           	5100.0    	0.015     	0.0       	0.0       	0.0       	0         
+8130            	81309           	15009           	3500.0    	0.015     	0.0       	0.0       	0.0       	0         
+1030            	10309           	10208           	4500.0    	0.016     	0.0       	0.0       	0.0       	0         
+1570            	15009           	16009           	5000.0    	0.0154    	0.0       	0.0       	0.0       	0         
+1600            	16009           	16109           	500.0     	0.015     	0.0       	0.0       	0.0       	0         
+1630            	16009           	10309           	300.0     	0.015     	0.0       	0.0       	0.0       	0         
+1602            	82309           	16109           	5000.0    	0.034     	0.0       	0.0       	0.0       	0         
+
+[PUMPS]
+;              	Inlet           	Outlet          	Pump            	Init. 	Startup 	Shutoff 
+;Name          	Node            	Node            	Curve           	Status	Depth   	Depth   
+;--------------	----------------	----------------	----------------	------	--------	--------
+PUMPOne         	82309           	OffLine         	PUMPCURVEforPUMP1@82309-15009	ON    	0       	0       
+BackFlow        	OffLine         	82309           	PUMPCURVEforPUMP1@82309-15009	ON    	0       	0       
+
+[XSECTIONS]
+;Link          	Shape       	Geom1           	Geom2     	Geom3     	Geom4     	Barrels   
+;--------------	------------	----------------	----------	----------	----------	----------
+8040            	CIRCULAR    	4.0             	0.0       	0.0       	0.0       	1.0       	          
+8060            	CIRCULAR    	4.0             	0.0       	0.0       	0.0       	1.0       	          
+8100            	CIRCULAR    	4.5             	0.0       	0.0       	0.0       	1.0       	          
+8130            	CIRCULAR    	4.5             	0.0       	0.0       	0.0       	1.0       	          
+1030            	TRIANGULAR  	9.0             	54.0      	0         	0         	1.0       	          
+1570            	CIRCULAR    	5.5             	0.0       	0.0       	0.0       	1.0       	          
+1600            	CIRCULAR    	6.0             	0.0       	0.0       	0.0       	1.0       	          
+1630            	TRIANGULAR  	9.0             	54.0      	0         	0         	1.0       	          
+1602            	CIRCULAR    	5.0             	0.0       	0.0       	0.0       	1.0       	          
+
+[LOSSES]
+;Link          	Inlet     	Outlet    	Average   	Flap Gate 
+;--------------	----------	----------	----------	----------
+
+[CONTROLS]
+RULE BackFlow1
+IF LINK 8040 FLOW > 1
+THEN PUMP BackFlow SETTING = 1.0
+AND PUMP PumpOne SETTING = 0.0
+ELSE PUMP BackFlow SETTING = 0.0
+AND PUMP PumpOne SETTING = 1.0
+
+[INFLOWS]
+;              	                	                	Param   	Units   	Scale   	Baseline	Baseline
+;Node          	Parameter       	Time Series     	Type    	Factor  	Factor  	Value   	Pattern
+;--------------	----------------	----------------	--------	--------	--------	--------	--------
+80408           	FLOW            	INFLOW@80408    	FLOW    	1.0     	1.0     	        
+81009           	FLOW            	INFLOW@81009    	FLOW    	1.0     	1.0     	        
+82309           	FLOW            	INFLOW@82309    	FLOW    	1.0     	1.0     	        
+OffLine         	FLOW            	INFLOW@82309    	FLOW    	1.0     	1.0     	        
+
+[CURVES]
+;Name          	Type      	X-Value   	Y-Value   
+;--------------	----------	----------	----------
+PUMPCURVEforPUMP1@82309-15009	Pump1     	0         	5.0       
+PUMPCURVEforPUMP1@82309-15009	          	25.0      	10.0      
+PUMPCURVEforPUMP1@82309-15009	          	600       	20.0      
+
+[TIMESERIES]
+;Name          	Date      	Time      	Value     
+;--------------	----------	----------	----------
+INFLOW@82309    	01/01/1988	00:00     	0.00000   
+INFLOW@82309    	          	00:15     	40.00000  
+INFLOW@82309    	          	03:00     	40.00000  
+INFLOW@82309    	          	03:15     	0.00000   
+INFLOW@82309    	          	12:00     	0.00000   
+
+INFLOW@80408    	01/01/1988	00:00     	0.00000   
+INFLOW@80408    	          	00:15     	45.00000  
+INFLOW@80408    	          	03:00     	45.00000  
+INFLOW@80408    	          	03:15     	0.00000   
+INFLOW@80408    	          	12:00     	0.00000   
+
+INFLOW@81009    	01/01/1988	00:00     	0.00000   
+INFLOW@81009    	          	00:15     	50.00000  
+INFLOW@81009    	          	03:00     	50.00000  
+INFLOW@81009    	          	03:15     	0.00000   
+INFLOW@81009    	          	12:00     	0.00000   
+
+[REPORT]
+INPUT     	YES
+CONTROLS  	YES
+SUBCATCHMENTS	ALL
+NODES	ALL
+LINKS	ALL
+
+[TAGS]
+Node      	10309           	10309           
+Node      	15009           	15009           
+Node      	16009           	16009           
+Node      	16109           	16109           
+Node      	80408           	80408           
+Node      	80608           	80608           
+Node      	81009           	81009           
+Node      	81309           	81309           
+Node      	10208           	10208           
+Node      	82309           	82309           
+Link      	8040            	8040            
+Link      	8060            	8060            
+Link      	8100            	8100            
+Link      	8130            	8130            
+Link      	1030            	1030            
+Link      	1570            	1570            
+Link      	1600            	1600            
+Link      	1630            	1630            
+Link      	1602            	1602            
+
+[MAP]
+DIMENSIONS	-1113.687	2165.261	10650.527	7792.630
+Units     	None
+
+[COORDINATES]
+;Node          	X-Coord           	Y-Coord           
+;--------------	------------------	------------------
+10309           	389.470           	2421.050          
+15009           	4978.950          	2421.050          
+16009           	2494.740          	2421.050          
+16109           	2494.740          	7536.840          
+80408           	10115.790         	7536.840          
+80608           	7463.160          	7536.840          
+81009           	9989.470          	2421.050          
+81309           	7568.420          	2421.050          
+10208           	-578.950          	4947.370          
+82309           	4957.890          	7536.840          
+OffLine         	6515.671          	4882.892          
+
+[VERTICES]
+;Link          	X-Coord           	Y-Coord           
+;--------------	------------------	------------------
+BackFlow        	6807.130          	6374.089          
+
