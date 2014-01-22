@@ -49,6 +49,23 @@ from processing.outputs.OutputTable import OutputTable
 from processing.core.ProcessingConfig import ProcessingConfig
 from processing.tools import dataobjects
 
+def convert_date(d):
+    month = {'JAN':'01',
+             'FEB':'02',
+             'MAR':'03',
+             'APR':'04',
+             'MAY':'05',
+             'JUN':'06',
+             'JUL':'07',
+             'AUG':'08',
+             'SEP':'09',
+             'OCT':'10',
+             'NOV':'11',
+             'DEC':'12'}
+    m = re.search('^(\S+)-(\d\d)-(\d\d\d\d)$',d) # for date and time saved as timestamps
+    if not m : raise RuntimeError
+    return m.group(3)+'-'+month[m.group(1)]+'-'+m.group(2)
+
 class SwmmAlgorithm(GeoAlgorithm):
 
     TITLE = 'TITLE'
@@ -202,23 +219,27 @@ class SwmmAlgorithm(GeoAlgorithm):
         tbl += '\n'
         return tbl;
 
-    def swmmKeyVal(self, table_name):
+    def swmmKeyVal(self, table_name, simul_title):
         uri = self.getParameterValue(table_name)
         if not uri: return u''
         layer = dataobjects.getObjectFromUri(uri)
-        pkidx = layer.dataProvider().pkAttributeIndexes()
         fields = []
         for i,field in enumerate(layer.dataProvider().fields()): 
-            if not i in pkidx: fields.append(field.name())
+            fields.append(field.name())
 
         tbl =u'['+table_name+']\n'
+        found = False
         for feature in layer.getFeatures():
-            for i,v in enumerate(feature):
-                if not i in pkidx: 
-                    if str(v) != 'NULL': tbl += fields[i].upper()+'\t'+str(v)+'\n'
-                    else: tbl += '\t'
-            tbl += '\n'
+            if str(feature[0]) == simul_title:
+                for i,v in enumerate(feature):
+                    if i and str(v) != 'NULL': tbl += fields[i].upper()+'\t'+str(v)+'\n'
+                    elif i : tbl += '\t'
+                found = True
+                tbl += '\n'
         tbl += '\n'
+        if not found:
+            raise GeoAlgorithmExecutionException(
+                    "No simulation named '"+simul_title+"' in "+table_name)
         return tbl;
 
     def processAlgorithm(self, progress):
@@ -227,18 +248,19 @@ class SwmmAlgorithm(GeoAlgorithm):
             raise GeoAlgorithmExecutionException(
                     'Swmm command line toom is not configured.\n\
                      Please configure it before running Swmm algorithms.')
+
         folder = '/tmp' #ProcessingConfig.getSetting(ProcessingConfig.OUTPUT_FOLDER)
         filename = folder+'/swmm.inp'
         f = codecs.open(filename,'w',encoding='utf-8')
         f.write('[TITLE]\n')
         f.write(self.getParameterValue(self.TITLE)+'\n\n')
 
-        f.write(self.swmmKeyVal(self.OPTIONS))
-        f.write(self.swmmKeyVal(self.REPORT))
+        f.write(self.swmmKeyVal(self.OPTIONS, self.getParameterValue(self.TITLE)))
+        f.write(self.swmmKeyVal(self.REPORT,self.getParameterValue(self.TITLE)))
         f.write(self.swmmTable(self.FILES))
         f.write(self.swmmTable(self.RAINGAGES))
         f.write(self.swmmTable(self.HYDROGRAPHS))
-        f.write(self.swmmKeyVal(self.EVAPORATION))
+        f.write(self.swmmKeyVal(self.EVAPORATION, self.getParameterValue(self.TITLE)))
         f.write(self.swmmTable(self.TEMPERATURE))
         f.write(self.swmmTable(self.SUBCATCHMENTS))
         f.write(self.swmmTable(self.SUBAREAS))
@@ -368,7 +390,7 @@ class SwmmAlgorithm(GeoAlgorithm):
                 tbl = line.split()
                 if len(tbl) >= 6:
                     feature['Node']     = node_id
-                    feature['Time']     = tbl[0]+' '+tbl[1]
+                    feature['Time']     = convert_date(tbl[0])+' '+tbl[1]
                     feature['Inflow']   = tbl[2]
                     feature['Flooding'] = tbl[3]
                     feature['Depth']    = tbl[4]
@@ -382,7 +404,7 @@ class SwmmAlgorithm(GeoAlgorithm):
                 tbl = line.split()
                 if len(tbl) >= 6:
                     feature['Link']     = link_id
-                    feature['Time']     = tbl[0]+' '+tbl[1]
+                    feature['Time']     = convert_date(tbl[0])+' '+tbl[1]
                     feature['Flow']     = tbl[2]
                     feature['Velocity'] = tbl[3]
                     feature['Depth']    = tbl[4]
