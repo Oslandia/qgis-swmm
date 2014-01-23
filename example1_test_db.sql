@@ -1,6 +1,5 @@
 SELECT 'OPTIONS';
 CREATE TABLE OPTIONS(
-    SIMULATION_TITLE            varchar,
     FLOW_UNITS          	varchar,
     INFILTRATION        	varchar,
     FLOW_ROUTING        	varchar,
@@ -29,7 +28,6 @@ CREATE TABLE OPTIONS(
     MIN_SLOPE           	float
 );
 INSERT INTO OPTIONS VALUES (
-    'Swmm Simulation',
     'CFS',
     'HORTON',
     'DYNWAVE',
@@ -60,12 +58,10 @@ INSERT INTO OPTIONS VALUES (
 
 SELECT 'EVAPORATION';
 CREATE TABLE EVAPORATION(
-    SIMULATION_TITLE varchar,
     CONSTANT float,
     DRY_ONLY varchar
 );
 INSERT INTO EVAPORATION VALUES (
-    'Swmm Simulation',
     0.0,
     'NO'
 );
@@ -257,7 +253,6 @@ INSERT INTO TIMESERIES VALUES ('INFLOW@81009', '01/01/1988 12:00', 0.00000);
 
 SELECT 'REPORT';
 CREATE TABLE REPORT(
-    SIMULATION_TITLE varchar,
     INPUT varchar,
     CONTROLS varchar,
     SUBCATCHMENTS varchar,
@@ -265,7 +260,6 @@ CREATE TABLE REPORT(
     LINKS varchar
 );
 INSERT INTO REPORT VALUES (
-'Swmm Simulation',
 'YES',
 'YES',
 'ALL',
