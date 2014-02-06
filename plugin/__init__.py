@@ -9,7 +9,7 @@ class Dummy:
         self.provider = SwmmAlgorithmProvider()
     
     def initGui(self):
-        Processing.addProvider(self.provider)
+        Processing.addProvider(self.provider, True)
     
     def unload(self):
         Processing.removeProvider(self.provider)
