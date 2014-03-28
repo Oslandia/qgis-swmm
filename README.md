@@ -138,3 +138,9 @@ Licence
 This work is free software and licenced under the GNU GPL version 2 or any later version.
 See LICENCE file.
 
+Known issue
+===========
+
+In SwmmAlgorithm.py the first argument of subprocess.Popen should be the list [swmm_cli, filename, outfilename], but for some reason this does not seem to work. On windows, if you can't obtain the results after running the example, try changing this line.
+
+

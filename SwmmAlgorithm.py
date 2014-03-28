@@ -243,14 +243,14 @@ class SwmmAlgorithm(GeoAlgorithm):
         return tbl;
 
     def processAlgorithm(self, progress):
-        swmm_cli = ProcessingConfig.getSetting('Swmm_CLI')
+        swmm_cli = os.path.abspath(ProcessingConfig.getSetting('Swmm_CLI'))
         if not swmm_cli:
             raise GeoAlgorithmExecutionException(
                     'Swmm command line toom is not configured.\n\
                      Please configure it before running Swmm algorithms.')
 
-        folder = '/tmp' #ProcessingConfig.getSetting(ProcessingConfig.OUTPUT_FOLDER)
-        filename = folder+'/swmm.inp'
+        folder = ProcessingConfig.getSetting(ProcessingConfig.OUTPUT_FOLDER)
+        filename = os.path.join(folder, 'swmm.inp')
         f = codecs.open(filename,'w',encoding='utf-8')
         f.write('[TITLE]\n')
         f.write(self.getParameterValue(self.TITLE)+'\n\n')
@@ -299,11 +299,14 @@ class SwmmAlgorithm(GeoAlgorithm):
 
         f.close()
 
-        outfilename = folder+'/swmm.out'
+        outfilename = os.path.join(folder, 'swmm.out')
         progress.setText('running simulation')
         log=""
         proc = subprocess.Popen(
-            swmm_cli+" "+filename+" "+outfilename,
+            # this doesn't work on linux, but IMHO should
+            # [swmm_cli, filename, outfilename]
+            # this works on linux
+            swmm_cli+' '+filename+' '+outfilename,
             shell=True,
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,
