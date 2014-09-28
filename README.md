@@ -21,12 +21,12 @@ You need to have swmm as a command line tool for the plugin to work.
 Install SWMM for Windows
 --------------------------
 
-Download and run http://www.epa.gov/nrmrl/wswrd/wq/models/swmm/swmm51001_setup.exe 
+Download and run http://www2.epa.gov/sites/production/files/2014-06/swmm51006_setup_1.exe
 
 Compile SWMM for linux
 ------------------------
 
-Download Epanet sources from http://www.epa.gov/nrmrl/wswrd/wq/models/swmm/swmm51001_engine.zip 
+Download Epanet sources from http://www2.epa.gov/sites/production/files/2014-06/swmm51006_engine_0.zip
 
 For linux:
 
@@ -69,23 +69,23 @@ Install the plugin
  
 Simply put this directory in the plugin directory. On linux:
 
-    cd ~/.qgis2/python/plugin
+    cd ~/.qgis2/python/plugins
     git clone https://github.com/Oslandia/qgis-swmm.git
 
-You then need to run QGIS, install the processing plugin and configure the path to the swmm executable in QGIS menu Processsing->Options and configuration.
+You then need to run QGIS, install the processing plugin and configure the path to the swmm executable in QGIS menu Processing -> Options and configuration.
 
 
 Running the example
 ===================
 
-A simple example is provided to test the plugin. You nee a working postgres/postgis server in order to use the example.
+A simple example is provided to test the plugin. You need a working postgres/postgis server in order to use the example.
 
 First create a test database, from the installation root directory run:
 
     createdb swmm_test
     psql swmm_test -f example/example1_test_db.sql
 
-Open qgis, click on 'Add Postgis Layer', configure a new connection to swmm_test database and connect. Check 'Also list tables with no geometry' and select following layers from the plublic schema (layers with geometry are duplicated in the list, make sure you select the entry with a geometry):
+Open QGIS, click on 'Add Postgis Layer', configure a new connection to swmm_test database and connect. Check 'Also list tables with no geometry' and select following layers from the plublic schema (layers with geometry are duplicated in the list, make sure you select the entry with a geometry):
 
 - conduits (geom)
 - controls
@@ -101,7 +101,7 @@ Open qgis, click on 'Add Postgis Layer', configure a new connection to swmm_test
 - timeseries
 - xsections
 
-Open the processing toobox and double-click on the incon Swmm...->Simulation->Simulate...
+Open the processing toobox and double-click on the incon Swmm... -> Simulation -> Simulate...
 
 If you are running a fresh buid from QGIS master, the name of the parameters are already set (recognized from layer names). If you running an older version of QGIS, you must set the following parameter:
 
