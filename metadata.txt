@@ -10,9 +10,9 @@
 
 [general]
 name=swmm
-qgisMinimumVersion=2.0
+qgisMinimumVersion=2.6
 description=Extends processing framework to include Storm Water Management Model
-version=0.1
+version=0.1.1
 author=Oslandia
 email=infos@oslandia.com
 
