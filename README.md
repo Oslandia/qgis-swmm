@@ -21,12 +21,12 @@ You need to have swmm as a command line tool for the plugin to work.
 Install SWMM for Windows
 --------------------------
 
-Download and run http://www2.epa.gov/sites/production/files/2014-06/swmm51006_setup_1.exe
+Download and run http://www2.epa.gov/sites/production/files/2014-10/swmm51007_setup_0.exe
 
 Compile SWMM for linux
 ------------------------
 
-Download Epanet sources from http://www2.epa.gov/sites/production/files/2014-06/swmm51006_engine_0.zip
+Download Epanet sources from http://www2.epa.gov/sites/production/files/2014-10/swmm51007_engine_0.zip
 
 For linux:
 
